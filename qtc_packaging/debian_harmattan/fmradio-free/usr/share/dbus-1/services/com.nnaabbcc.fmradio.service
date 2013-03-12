@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.nnaabbcc.fmradio
+Exec=/opt/fmradio-free/fmradio-backend

@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.akozhan.fmradio
-Exec=/opt/fmradio/fmradio-backend

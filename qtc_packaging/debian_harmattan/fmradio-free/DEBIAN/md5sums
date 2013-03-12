@@ -1,0 +1,9 @@
+529e5e29195763ff94227348d8d99a78  opt/fmradio-free/fmradio
+b4c92bf25771aca3093ed98cf0be7c53  opt/fmradio-free/fmradio-backend
+45f89a737d7e0eb4e0bba3b30ee7c760  usr/share/applications/fmradio.desktop
+0cc4ab50b764cbb560fd2c54c2b5a6e1  usr/share/dbus-1/services/com.nnaabbcc.fmradio.service
+bea32b6cb862d58222ff7e60e747d0e2  usr/share/doc/fmradio-free/README
+25ebb5d6f6c427e57d0f4f084431bbe2  usr/share/doc/fmradio-free/changelog.gz
+82a256f3b39929dd7c32520b5f660e95  usr/share/doc/fmradio-free/copyright
+ccfb5e6e51375bb4e66f4c862f5ceb83  usr/share/icons/hicolor/80x80/apps/fmradio80.png
+f93c35a835f5fa13c92b7ef5ef71a6e9  usr/share/policy/etc/syspart.conf.d/fmradio.conf
