@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <node name="/fmradio">
-    <interface name="com.akozhan.fmradio">
+    <interface name="com.nnaabbcc.fmradio">
         <method name="tuneToFreq" >
             <arg direction="in" name="freq" type="d"/>
         </method>

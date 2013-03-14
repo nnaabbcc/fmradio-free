@@ -18,6 +18,7 @@
 */
 
 import QtQuick 1.1
+import QtMobility.feedback 1.1
 
 Item {
     id: container
@@ -29,6 +30,7 @@ Item {
         anchors.fill: parent
         onClicked: {
             container.clicked();
+            tapVibro.start();
         }
     }
 
@@ -36,6 +38,16 @@ Item {
         id: image
         smooth: true
         anchors.fill:parent
-        source: mouseArea.pressed ? "help.png" : "help_disabled.png"
+        source: mouseArea.pressed ? "mainview-settings-button-enabled.png" : "mainview-settings-button-normal.png"
+    }
+
+    HapticsEffect {
+        id: tapVibro
+        attackIntensity: 0.5
+        attackTime: 30
+        intensity: 0.7
+        duration: 50
+        fadeTime: 30
+        fadeIntensity: 0.5
     }
 }

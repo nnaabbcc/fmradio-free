@@ -16,30 +16,49 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
+import "../../skin-chooser"
 import QtQuick 1.1
 
 Item {
     id: container
     height: 854; width: 480
+    property string translatedText: qsTr("fm-tr-retro-help-text")
 
     MouseArea {
+        z: -2
         anchors.fill: parent
     }
 
+    Rectangle {
+        id: background
+        x: 0
+        y: 0
+        opacity: 0.900
+        color: "black"
+        radius: 20
+        z: -1
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 10
+        anchors.leftMargin: 10
+        anchors.topMargin: 10
+        anchors.fill: parent
+        smooth: true
+
+
     Image {
         id: backButton
-        width: 91
-        height: 93
+        width: 81
+        height: 81
+        anchors.right: parent.right
+        anchors.rightMargin: 10
         anchors.top: parent.top
-        anchors.topMargin: 5
-        anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.topMargin: 10
         smooth: true
-        source: "back_button.png"
+        source: mouseArea.pressed ? "close-btn-pressed.png" : "close-btn-normal.png"
 
         MouseArea {
             id: mouseArea
+            z: 1
             anchors.fill: parent
             onClicked: {
                 container.opacity = 0
@@ -49,117 +68,196 @@ Item {
     }
 
     Text {
-        id: text3
-        x: 96
-        y: 62
-        width: 374
-        height: 30
-        color: "#d1ce04"
-        text: " version 0.0.6"
-        font.pixelSize: 27
-    }
-
-    Text {
-            id: text2
-            x: 5
-            y: 103
-            width: 450
-            height: 31
-            color: "#57cc2c"
-            text: "&copy; Andrey Kozhanov <a href=\"mailto:andy.tolst@gmail.com\">andy.tolst@gmail.com</a>"
-            verticalAlignment: Text.AlignVCenter
-            font.pixelSize: 23
-            onLinkActivated: {
-                console.log("Link clicked:"+ link);
-                Qt.openUrlExternally(link);
-            }
-        }
-
-    Text {
-            id: text1
-            x: 96
-            y: 5
-            width: 344
+            id: title
+            width: 440
             height: 52
-            color: "#ffd500"
-            text: "FM Radio"
+            text: qsTr("fm-tr-retro-app-title") //"FM Radio"
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            color: "#cccccc"
+            horizontalAlignment: Text.AlignHCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 10
             font.bold: true
-            font.pixelSize: 49
+            font.pixelSize: 45
         }
 
-    Rectangle {
-        id: background
-        x: 0
-        y: 0
-        opacity: 0.8
-        color: "black"
-        z: -1
-        anchors.rightMargin: 0
-        anchors.bottomMargin: 0
-        anchors.leftMargin: 0
+    Text {
+        id: version
+        width: 440
+        height: 30
+        color: "#cccccc"
+        text:  qsTr("fm-tr-retro-app-version").replace("%1",tunerModel.getVersion()) // " version 1.0.0"
+        anchors.top: title.bottom
         anchors.topMargin: 0
-        anchors.fill: parent
+        horizontalAlignment: Text.AlignHCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        font.pixelSize: 22
     }
 
-    Flickable {
-        x: 10
-        y: 155
-        width: 460
-        height: 689
-        clip: true
-        anchors.topMargin: 155
-        anchors.bottomMargin: 10
-        anchors.rightMargin: 10
+    Text {
+        id: link
+        width: 440
+        height: 30
+        color: "#cccccc"
+        text: "
+            <html>
+                <style>
+                    a
+                    {
+                            font-weight: bold;
+                            text-decoration: underline;
+                            color: #cccccc;
+                    }
+                </style>
+                <body>
+                    <p align='center'> <a align='center' href='http:\/\/fm-radio.mobi/do?action=about&version=1.1.4'>http://fm-radio.mobi<\/a> </p>
+                </body>
+            </html>"
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            verticalAlignment: Text.AlignVCenter
+        anchors.top: version.bottom
+        anchors.topMargin: 30
+        horizontalAlignment: Text.AlignHCenter
+        anchors.left: parent.left
         anchors.leftMargin: 10
-        contentHeight: helpText.height
-        contentWidth: helpText.width
-        flickableDirection: Flickable.VerticalFlick
-        anchors.fill: parent
+        font.pixelSize: 25
+
+        onLinkActivated: {
+            Qt.openUrlExternally(link);
+        }
+    }
+
+//    Flickable {
+//        x: 10
+//        y: 97
+//        width: 440
+//        height: 727
+//        clip: true
+//        anchors.topMargin: 97
+//        anchors.bottomMargin: 10
+//        anchors.rightMargin: 10
+//        anchors.leftMargin: 10
+//        contentHeight: helpText.height
+//        contentWidth: helpText.width
+//        flickableDirection: Flickable.VerticalFlick
+//        anchors.fill: parent
+
+//        Button {
+//            id: skinButton
+//            width: 400
+//            height: 100
+//            text: "Change skin"
+//            onClicked:
+//            {
+//                //tunerModel.powerOn(false);
+//                tunerModel.changeSkin(1);
+//            }
+//        }
+
+    LargeButton {
+        id: themeBtn
+        text: qsTr("fm-tr-retro-switch-theme") //"Switch Theme"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: link.bottom
+        anchors.topMargin: 30
+
+        onClicked: {
+            skinChooser.opacity = 1;
+        }
+    }
+
+    LargeButton {
+        id: updateBtn
+        text: qsTr("fm-tr-retro-rate") //"Rate!"
+        icon: "star.png"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: themeBtn.bottom
+        anchors.topMargin: 20
+        onClicked: {
+            Qt.openUrlExternally("http://store.ovi.com/content/262564")
+        }
+    }
+
+    LargeButton {
+        id: helpBtn
+        text: qsTr("fm-tr-retro-help") //"Help"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: updateBtn.bottom
+        anchors.topMargin: 20
+
+        onClicked: {
+            Qt.openUrlExternally("http://fm-radio.mobi/do?action=help&version=1.1.4")
+        }
+    }
 
         Text {
             id: helpText
-            width: 450
-            color: "#ffff5f"
-            text: "<html><style>a { color: green; } a:visited { color: red; } a:active {color: yellow;} </style><body>
-                   <b><u>Usage guide: </u></b><br>
-                   Please insert headset for better signal quality, it acts as FM antenna.<br>
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 30
+            width: 440
+            height: 200
+            color: "#cccccc"
+            text: "<html>
+            <style>
+            a
+            {
+                    font: 20px Arial, Verdana, sans-serif;
+                    font-weight: bold;
+                    color: #cccccc;
+                    text-decoration: underline;
+            }
 
-                   <img src=':speaker_button_headset_highlited.png' width=70 height=70 />
-                   <img src=':speaker_button_highlited.png' width=70 height=70 /> <br>
-                   \"headset\/speaker\" button allows to play radio on loudspeaker when headset is inserted.<br>
+            a:hover
+            {
+                    text-decoration: underline;
+            }
 
-                   <img src=':nixie_help.png' width=300 height=100 /> <br>
-                   Nixie tube digits indicate current frequency<br>
+            p
+            {
+                font: 20px/1.5em Verdana;
+            }
 
-                   <img src=':scale_help.png' width=300 height=100 /> <br>
-                   Scrolling tuner scale allows to set frequency manually<br>
+            <\/style>
 
-                   <img src=':seek_help.png' width=150 height=40 /> <br>
-                   Single tap on (&lt;&lt;) and (&gt;&gt;) butons allows to adjust frequency. <br>
-                   Long tap on (&lt;&lt;) and (&gt;&gt;) butons performs scan in corresponding direction.<br>
+            <body>" + translatedText + "</body> </html> "
 
-                   <img src=':favorite_help.png' width=300 height=60 /> <br>
-                   Single tap on favorite station button sets frequency. <br>
-                   Long tap on favorite station resets button's value to current frequency. <br>
-                   <br>
+//            <p>Copyright &copy; 2012 <a href=\"mailto:andy.tolst@gmail.com\">Andrey Kozhanov</a></p>
 
-                   This software is open source. <br>
-                   Source code and license details of this application is available on
-                   GitHub <a href=\"https:\/\/github.com\/andytolst\/fmradio\">https://github.com/andytolst/fmradio</a> <br>
-                   FM tuner engine is based on fmrx tool &copy; Javier S. Pedro  <a href=\"http:\/\/gitorious.org\/n950-fmrx\">http://gitorious.org/n950-fmrx</a>
-                   </body> </html> "
-            font.pointSize: 20
+//            <p>Application backend is based on fmrxd daemon
+//            Copyright &copy; 2011 <a href=\"mailto:maemo@javispedro.com\">Javier S. Pedro</a></p>
+//            <br>
+
+//            <p>This application includes some parts distributed under GPL license.<br>
+//            For more details please refer to <a href='http:\/\/fm-radio.mobi/do?action=about&version=1.1.4'>fm-radio.mobi</a></p>
+
+
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignLeft
+
+            font.pointSize: 17
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             textFormat: Text.RichText
 
             onLinkActivated: {
-                console.log("Link clicked:"+ link);
                 Qt.openUrlExternally(link);
             }
+
         }
+//    }
+
     }
 
+    SkinChooser {
+        id: skinChooser
+        opacity: 0;
 
-
+        onClosed: {
+            opacity = 0;
+        }
+    }
 
 }

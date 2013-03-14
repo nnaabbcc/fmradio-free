@@ -18,6 +18,7 @@
 */
 
 import QtQuick 1.1
+import QtMobility.feedback 1.1
 
 Item {
     id: container
@@ -30,7 +31,8 @@ Item {
         anchors.fill: parent
         onClicked: {
             container.clicked();
-            isEnabled = !isEnabled
+            isEnabled = !isEnabled;
+            tapVibro.start();
         }
     }
 
@@ -39,5 +41,15 @@ Item {
         smooth: true
         anchors.fill:parent
         source: isEnabled || mouseArea.pressed ? "switch_on.png" : "switch_off.png"
+    }
+
+    HapticsEffect {
+        id: tapVibro
+        attackIntensity: 0.5
+        attackTime: 30
+        intensity: 0.7
+        duration: 50
+        fadeTime: 30
+        fadeIntensity: 0.5
     }
 }

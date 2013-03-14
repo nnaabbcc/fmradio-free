@@ -23,10 +23,10 @@ Item {
     id: meter
     property int value: 0
     property bool powered: false
-    width: 160
-    height: 90
+    width: 169
+    height: 169
     smooth: true
-    clip: true
+
     state: "PoweredOff"
 
     onPoweredChanged: {
@@ -53,77 +53,72 @@ Item {
 
     Image {
         id: background
-        anchors.rightMargin: 9
-        anchors.leftMargin: 8
-        anchors.bottomMargin: 5
-        anchors.topMargin: 5
-        z: -1
-
+        z: -2
+        width: 141
+        height: 141
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
         smooth: true
         fillMode: Image.PreserveAspectFit
         source: "meter_background.png"
 
-        anchors.fill: parent
         opacity: 1
     }
 
+
+
     Image {
         id: light
+        z: -2
 
         smooth: true
         fillMode: Image.PreserveAspectFit
         source: "meter_light.png"
 
-        anchors.fill: parent
+        anchors.fill: background
         opacity: 0
     }
 
+
     Image {
         id: foreground
-        z: 1
+
+        z: 5
 
         smooth: true
         fillMode: Image.PreserveAspectFit
         source: "meter_foreground.png"
 
-        anchors.fill: parent
-        opacity: 1
+        width: 169
+        height: 168
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
     }
 
-    Item {
-        id: clippingArea
-        clip: true
-        anchors.rightMargin: 8
-        anchors.leftMargin: 8
-        anchors.bottomMargin: 6
-        anchors.topMargin: 6
+    Image {
+        id: arrowImage;
+        x: 85
+        y: 76
+        height: meter.height - 80
+        z: 4
 
-        anchors.fill: parent
+        rotation:(value * 80/100) - 40
+        anchors.horizontalCenterOffset: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 41
 
-        Image {
-            id: arrowImage;
-            x: 70
-            y: 18
-            height: meter.height - 2
-            z: 1
-            clip: true
-            rotation:(value * 80/100) - 40
-            anchors.horizontalCenterOffset: 0
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: -31
+        transformOrigin: "Bottom"
 
-            transformOrigin: "Bottom"
+        smooth: true
+        fillMode: Image.PreserveAspectFit
+        source: "meter_arrow.png"
 
-            smooth: true
-            fillMode: Image.PreserveAspectFit
-            source: "meter_arrow.png"
-
-            Behavior on rotation {
-                SpringAnimation {
-                    spring: 1.4
-                    damping: 0.15
-                }
+        Behavior on rotation {
+            SpringAnimation {
+                spring: 1.4
+                damping: 0.15
             }
         }
     }

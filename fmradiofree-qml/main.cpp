@@ -18,8 +18,8 @@
 */
 
 #include <QtGui/QApplication>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QTranslator>
+#include <QLocale>
 #include "tunermodel.h"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
@@ -32,16 +32,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     TunerModel tunerModel;
 
-    QDeclarativeView viewer;
-    QDeclarativeContext *ctxt = viewer.rootContext();
-    ctxt->setContextProperty("tunerModel", &tunerModel);
+    QTranslator translator;
+    translator.load(QString(":/i18n/fmradio_ts_") + QLocale::system().name());
+    app->installTranslator(&translator);
 
-#if defined(MEEGO_OS)
-    viewer.setSource(QUrl("qrc:/qml/MainWindowDevice.qml"));
-    viewer.showFullScreen();
-#else
-    viewer.setSource(QUrl("qrc:/qml/MainWindowDesktop.qml"));
-    viewer.show();
-#endif
+    tunerModel.showViewer();
+
+
     return app->exec();
 }

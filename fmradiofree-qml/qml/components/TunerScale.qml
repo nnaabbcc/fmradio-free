@@ -21,8 +21,8 @@ import QtQuick 1.1
 
 Item {
     id: tunerWidget
-    width: 466
-    height: 184
+    width: 480
+    height: 198
 
     property real value: 87.5
     property real tuningValue: 87.5
@@ -52,18 +52,28 @@ Item {
         }
     }
 
+    Image {
+        id: background
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+        z: -1
+        anchors.fill: parent
+        source: "scale_background.png"
+    }
+
     Flickable {
         id: tuner
         property real value: 88
-        anchors.rightMargin: 5
-        anchors.leftMargin: 5
-        anchors.bottomMargin: 3
-        anchors.topMargin: 3
+        anchors.rightMargin: 27
+        anchors.leftMargin: 24
+        anchors.bottomMargin: 29
+        anchors.topMargin: 28
         smooth: true
+        boundsBehavior: Flickable.StopAtBounds
 
         anchors.fill: parent
 
-        anchors.horizontalCenterOffset: 3
+        anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         flickableDirection: Flickable.HorizontalFlick
         contentWidth: scaleImage.width;
@@ -74,15 +84,15 @@ Item {
             id: scaleImage
             x: 0
             y: 0
-            width: 1700
-            height: 180
+            width: 1400
+            height: 140
             z:1
             smooth: true
-            sourceSize.height: 0
-            sourceSize.width: 1700
+            sourceSize.height: 140
+            sourceSize.width: 1400
             clip: true
             fillMode: Image.TileHorizontally
-            source: "radio_scale.png"
+            source: "radio_scale.jpg"
         }
 
         Rectangle {
@@ -129,36 +139,22 @@ Item {
         smooth: true
         source: "black_cover.png"
         anchors.fill: tuner
+
+        visible: false
     }
 
     Image {
         id: scalePointer
-        width: 49
-        height: 180
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.top: parent.top
-        anchors.bottomMargin: 2
-        anchors.topMargin: 2
+        sourceSize.height: 198
+        sourceSize.width: 480
+
+        anchors.fill: parent
+
         smooth: true
-        sourceSize.height: 0
-        sourceSize.width: 0
         z: 2
-        opacity: 1
+
         fillMode: Image.PreserveAspectFit
-        source: "scale_pointer.png"
+        source: "scale_glass_cover.png"
     }
 
-    BorderImage {
-        id: border_image1
-        opacity: 1.000
-        smooth: true
-        border.bottom: 5
-        border.top: 5
-        border.right: 5
-        border.left: 5
-        z: 5
-        anchors.fill: parent
-        source: "border.png"
-    }
 }

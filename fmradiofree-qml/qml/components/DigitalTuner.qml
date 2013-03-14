@@ -20,16 +20,27 @@
 import QtQuick 1.1
 
 Item {
+    id: item1
     property double value
     property bool powered: false
 
-    width: image100.width * 5;
-    height: image100.height;
+//    width: image100.width * 5;
+//    height: image100.height;
+    width: 480;
+    height: 210;
+
+    Image {
+        id: background;
+        anchors.fill: parent
+        source: "nixie_background.png"
+    }
 
     NixieTubeDigit {
         id: image100
-        x: 0
-        anchors.top : parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        //anchors.top : parent.top
+        anchors.verticalCenter: parent.verticalCenter
         value: (parent.value/100)%10 - 0.5
         isEmpty: value === 0
         powered: parent.powered
@@ -37,15 +48,16 @@ Item {
 
     NixieTubeDigit {
         id: image10
-        anchors.top : parent.top
         anchors.left: image100.right
+        anchors.leftMargin: 0
+        anchors.verticalCenter: parent.verticalCenter
         value: (parent.value/10)%10 - 0.5
         powered: parent.powered
     }
 
     NixieTubeDigit {
         id: image1
-        anchors.top : parent.top
+        anchors.verticalCenter: parent.verticalCenter
         anchors.left: image10.right
         value: parent.value%10 - 0.5
         powered: parent.powered
@@ -53,7 +65,7 @@ Item {
 
     NixieTubeDigit {
         id: imageDot
-        anchors.top : parent.top
+        anchors.verticalCenter: parent.verticalCenter
         anchors.left: image1.right
         isDot: true
         powered: parent.powered
@@ -61,7 +73,7 @@ Item {
 
     NixieTubeDigit {
         id: imageDec
-        anchors.top : parent.top
+        anchors.verticalCenter: parent.verticalCenter
         anchors.left: imageDot.right
         value: (parent.value.toFixed(1)*10)%10
         powered: parent.powered

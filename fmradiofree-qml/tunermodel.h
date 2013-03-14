@@ -22,7 +22,10 @@
 
 #include <QObject>
 #include <QDBusInterface>
+#include <QDeclarativeView>
 #include "dbus/fmradiointerface.h"
+
+#include "stationsmodel.h"
 
 class ContextProperty;
 
@@ -33,12 +36,17 @@ public:
     explicit TunerModel(QObject *parent = 0);
     ~TunerModel();
 
+    void showViewer();
+
 signals:
     void scanCompleted(double freq);
     void ready();
     void signalChanged();
     void turnedOff();
     void speakerStateChanged();
+    void scanFwdStarted();
+    void scanBkwStarted();
+    void fullScanCompleted();
 
 public slots:
     void powerOn(bool on);
@@ -56,16 +64,43 @@ public slots:
 
     bool isPowered();
 
+    QString getVersion();
+
+    int currentSkin();
+    void changeSkin(int id);
+    bool isFirstTime();
+
+    void setActive(bool isActive);
+
+    void setActiveStationNum(int index);
+
+    void fullScan();
+
 private slots:
     void slotOnTuned(double freq, uint signal);
     void slotOnSignalChanged(uint signal, bool stereo);
     void slotOnBackendClosed(int code, QProcess::ExitStatus status);
     void onSpeakerChanged();
+
+private:
+    void loadClassicStations();
+    void saveClassicStations();
+
+    void doNextScanInFullScan();
+    void saveStation(qreal freq);
+
 private:
     enum TunerState {
         StateIdle,
         StateTuning,
         StateScanning
+    };
+
+    enum FullScanPath{
+        FSP_NONE,
+        FSP_FORWARD,
+        FSP_BACKWARD,
+        FSP_SECONDFORWARD
     };
 
     TunerState m_state;
@@ -85,6 +120,21 @@ private:
     ContextProperty* m_loudSpeakerProperty;
     bool m_speakerEnabled;
     bool m_powered;
+
+    QString m_version;
+
+    int m_skinId;
+    bool m_isActive;
+
+    QDeclarativeView * m_viewer;
+    StationsModel * m_stationModel;
+
+    bool m_isFirstTime;
+
+    int m_activeStationNum;
+
+    bool m_isFullScan;
+    FullScanPath m_fullScanPath;
 };
 
 #endif // TUNERMODEL_H

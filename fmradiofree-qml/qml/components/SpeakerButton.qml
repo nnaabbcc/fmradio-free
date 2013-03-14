@@ -18,6 +18,7 @@
 */
 
 import QtQuick 1.1
+import QtMobility.feedback 1.1
 
 Item {
     id: container
@@ -30,6 +31,7 @@ Item {
         anchors.fill: parent
         onClicked: {
             container.clicked();
+            tapVibro.start();
         }
     }
 
@@ -37,6 +39,17 @@ Item {
         id: image
         smooth: true
         anchors.fill:parent
-        source: mouseArea.pressed ? isSpeaker ? "speaker_button_highlited.png" : "speaker_button_headset_highlited.png" : isSpeaker ? "speaker_button.png" : "speaker_button_headset.png"
+        //source: mouseArea.pressed ? isSpeaker ? "speaker_button_highlited.png" : "speaker_button_headset_highlited.png" : isSpeaker ? "speaker_button.png" : "speaker_button_headset.png"
+        source: isSpeaker ? "speaker_button_headset.png" : "speaker_button_headset_highlited.png"
+    }
+
+    HapticsEffect {
+        id: tapVibro
+        attackIntensity: 0.5
+        attackTime: 30
+        intensity: 0.7
+        duration: 50
+        fadeTime: 30
+        fadeIntensity: 0.5
     }
 }

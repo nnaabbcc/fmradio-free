@@ -27,21 +27,21 @@ Item {
     property bool isEmpty: false
     state: "PoweredOff"
 
-    width: 92
-    height: 165
+    width: 83
+    height: 152
 
     onPoweredChanged: {
         fadeIn.stop();
         if(powered)
         {
-            digitImageNew.source = isEmpty ? "" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
+            digitImageNew.source = isEmpty ? "nixie_tube_empty_light.png" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
         }
 
         state = powered ? "PoweredOn" : "PoweredOff"
     }
 
     onIsEmptyChanged: {
-            digitImageNew.source = isEmpty ? "" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
+            digitImageNew.source = isEmpty ? "nixie_tube_empty_light.png" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
     }
 
     onValueChanged: {
@@ -51,7 +51,7 @@ Item {
             fadeIn.start();
             fadeOut.start();
 
-            digitImageNew.source = isEmpty ? "" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
+            digitImageNew.source = isEmpty ? "nixie_tube_empty_light.png" : isDot ? "nixie_dot.png" : "nixie_digit_" + value + ".png";
         }
     }
 
@@ -59,7 +59,6 @@ Item {
         State {
         name: "PoweredOff"
 
-        PropertyChanges { target: tubeLight; opacity: 0 }
         PropertyChanges { target: digitImageNew; opacity: 0 }
         PropertyChanges { target: digitImageOld; opacity: 0 }
         },
@@ -67,7 +66,6 @@ Item {
         State {
         name: "PoweredOn"
 
-        PropertyChanges { target: tubeLight; opacity: 1 }
         PropertyChanges { target: digitImageNew; opacity: 1 }
         PropertyChanges { target: digitImageOld; opacity: 0 }
         }
@@ -87,29 +85,12 @@ Item {
         smooth: true
         fillMode: Image.PreserveAspectFit
         source: "nixie_tube_empty.png"
-        opacity: 0.7
-    }
-
-    Image {
-        id: tubeLight
-        z: 2
-        anchors.fill: parent
-        smooth: true
-        fillMode: Image.PreserveAspectFit
-        source: "nixie_tube_light.png"
-        opacity: 0
+        opacity: 1
     }
 
     Image {
         id: digitImageNew
-        height: 130
-        sourceSize.width: 92
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 5
-        anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.fill: parent
         z: 3
         smooth: true
         fillMode: Image.PreserveAspectFit
@@ -119,14 +100,7 @@ Item {
 
     Image {
         id: digitImageOld
-        height: 130
-        sourceSize.width: 92
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 20
-        anchors.right: parent.right
-        anchors.rightMargin: 5
-        anchors.left: parent.left
-        anchors.leftMargin: 5
+        anchors.fill: parent
         z: 3
         smooth: true
         fillMode: Image.PreserveAspectFit

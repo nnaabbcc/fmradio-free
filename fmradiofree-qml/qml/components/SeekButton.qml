@@ -18,6 +18,7 @@
 */
 
 import QtQuick 1.0
+import QtMobility.feedback 1.1
 
 Item {
     id: container
@@ -32,29 +33,36 @@ Item {
     height: text.height + 10; width: text.width + 20
     smooth: true
 
-    BorderImage {
+    Image {
         anchors.fill: parent
-        border.bottom: 5
-        border.top: 5
-        border.right: 5
-        border.left: 5
         smooth: true
-        source: (highlited || mouseArea.pressed) ? "seek_button_highlited.png" : "seek_button.png"
+        source: isForward ? (highlited || mouseArea.pressed) ? "seek_button_right_pressed.png" : "seek_button_right.png" : (highlited || mouseArea.pressed) ? "seek_button_left_pressed.png" : "seek_button_left.png"
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: container.clicked()
-        onPressAndHold: container.longTap()
+        onClicked: { container.clicked(); tapVibro.start(); }
+        onPressAndHold: { container.longTap(); longTapVibro.start(); }
     }
 
-    Text {
-        id: text
-        anchors.centerIn:parent
-        font.pointSize: 25
-        font.bold: true
-        text: parent.text
-        smooth: true
+    HapticsEffect {
+        id: tapVibro
+        attackIntensity: 0.5
+        attackTime: 30
+        intensity: 0.7
+        duration: 50
+        fadeTime: 30
+        fadeIntensity: 0.5
+    }
+
+    HapticsEffect {
+        id: longTapVibro
+        attackIntensity: 0.3
+        attackTime: 100
+        intensity: 1.0
+        duration: 150
+        fadeTime: 100
+        fadeIntensity: 0.3
     }
 }

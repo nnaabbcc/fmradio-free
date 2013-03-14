@@ -51,5 +51,5 @@ target.path += /opt/fmradio-free/
 INSTALLS += target
 
 dbus_service.files   = com.nnaabbcc.fmradio.service
-dbus_service.path    = $$APP_INSTALL_ROOT/share/dbus-1/services
+dbus_service.path    = $$APP_INSTALL_ROOT/usr/share/dbus-1/services
 INSTALLS += dbus_service

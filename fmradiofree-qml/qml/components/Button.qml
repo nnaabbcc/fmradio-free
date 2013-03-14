@@ -18,12 +18,13 @@
 */
 
 import QtQuick 1.0
+import QtMobility.feedback 1.1
 
 Item {
     id: container
 
     property string text
-    property url picture
+    property string name: "station"
     signal clicked
     signal longTap
     property bool highlited: false
@@ -35,21 +36,53 @@ Item {
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
-        source: highlited ? "button_enabled.png" : !mouseArea.pressed ? "button_disabled.png" : "button_pressed.png"
+        source: highlited ? "button_pressed.png" : !mouseArea.pressed ? "button_disabled.png" : "button_pressed.png"
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        onClicked: container.clicked()
-        onPressAndHold: container.longTap()
+        onClicked: { container.clicked(); tapVibro.start(); }
+        onPressAndHold: { container.longTap(); longTapVibro.start(); }
     }
 
     Text {
         id: text
-        anchors.centerIn:parent
         font.pointSize: 25
         font.bold: true
         text: parent.text
+        anchors.top: parent.top
+        anchors.topMargin: 8
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "black"
+    }
+
+//    Text {
+//        id: name
+//        font.pointSize: 14
+//        text: parent.name
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 12
+//        anchors.horizontalCenter: parent.horizontalCenter
+//    }
+
+    HapticsEffect {
+        id: tapVibro
+        attackIntensity: 0.5
+        attackTime: 30
+        intensity: 0.7
+        duration: 50
+        fadeTime: 30
+        fadeIntensity: 0.5
+    }
+
+    HapticsEffect {
+        id: longTapVibro
+        attackIntensity: 0.3
+        attackTime: 100
+        intensity: 1.0
+        duration: 150
+        fadeTime: 100
+        fadeIntensity: 0.3
     }
 }
